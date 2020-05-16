@@ -281,6 +281,7 @@ while True:
                                 continue
                             else:
                                 player_chips.total = buy_back_input
+                                playing = True
                                 break
                     break
                 elif buy_in[0].lower() == "n":
