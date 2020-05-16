@@ -9,8 +9,6 @@ ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10,
          'Queen':10, 'King':10, 'Ace':11}
 
-playing = True
-
 #CLASS DEFINITIONS:
 
 class Card:
@@ -105,18 +103,19 @@ def twist(deck, hand):
 
 def stick_or_twist(deck, hand):
     
-    global playing
-    
     while True:
        
         x = input("Stick or twist? s/t ")
     
         if x[0].lower() == "t":
-                twist(deck, hand)
+            twist(deck, hand)
+            playing = True
+            return playing
                 
         elif x[0].lower() == "s":
-                print("player is sticking. Dealer to play")
-                playing = False
+            print("player is sticking. Dealer to play")
+            playing = False
+            return playing
                
         else:
             print("please enter a valid response")
@@ -218,12 +217,13 @@ while True:
     # Show cards (but keep one dealer card hidden)
     show_some(player, dealer)
     
+    playing = True
     
     while playing:  # recall this variable from our hit_or_stand function
         
         
         # Prompt for Player to Hit or Stand. If they choose to stick then playing = False so while-loop breaks
-        stick_or_twist(deck, player)
+        playing = stick_or_twist(deck, player)
         #clear_output() -- only works in jupyter
         # Show cards (but keep one dealer card hidden)
         show_some(player, dealer)
@@ -281,11 +281,9 @@ while True:
                                 continue
                             else:
                                 player_chips.total = buy_back_input
-                                playing = True
                                 break
                     break
                 elif buy_in[0].lower() == "n":
-                    playing = False
                     break
                 else:
                     print("please enter a valid response")
@@ -293,9 +291,9 @@ while True:
             
       
     elif replay[0].lower() == "y" and player_chips.total > 0 :
-            playing = True
-            #clear_output() -- only works in jupyter
-            continue 
+        #clear_output() -- only works in jupyter
+        continue 
+
     else:
         print("thanks for playing!")
         break
