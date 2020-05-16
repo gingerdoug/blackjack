@@ -289,7 +289,7 @@ while True:
                 else:
                     print("please enter a valid response")
                     continue  
-            break
+            
       
     elif replay[0].lower() == "y" and player_chips.total > 0 :
             playing = True
