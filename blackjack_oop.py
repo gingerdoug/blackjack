@@ -38,7 +38,7 @@ RANKS = (
 
 class Game:
     """
-    Blackjack game
+    Blackjack game, allowing player to play multiple hands vs. dealer
 
     Attributes:
         chip_balance (int): chips purchased
@@ -46,7 +46,7 @@ class Game:
         dealer_stick_threshold (int): dealer card total where they always stick
 
     Methods:
-        take_bet: Takes a wager from player, and shuffles and deals deck
+        take_bet (bet_size): Takes a wager from player, and shuffles and deals deck
         play_hand: Plays out hand, with player & dealer drawing cards and then resolving bet payoffs
     """
 
@@ -115,7 +115,6 @@ class Game:
         else:
             for c in self.dealer_hand:
                 print(c)
-
         print("\nPlayer's cards: \n")
         for c in self.player_hand:
             print(c)
@@ -166,7 +165,6 @@ class Game:
         If chooses stick, switch to dealers' choice, else draw another card and repeat 
         """
         twist_choice = get_yes_no_input("Would you like to twist y/n? \n")
-
         if twist_choice:
             self.player_hand = self._draw_card(self.player_hand)
             self._show_cards()
@@ -184,20 +182,16 @@ class Game:
         if self.player_is_bust:
             # if player.value > dealer.value and <21 then player wins
             print("Player bust, dealer wins!")
-
         elif self.dealer_hand_total > 21 or (
             self.dealer_hand_total < self.player_hand_total
         ):
             print("Player wins!")
             self.chip_balance += self.current_bet * 2
-
         elif self.dealer_hand_total > self.player_hand_total:
             # if dealer.value exceeds 21, they're bust
             print("Dealer wins")
-
         elif self.dealer_hand_total == self.player_hand_total:
             print("Tie")
-
             self.chip_balance += self.current_bet * 2
         print("**********************")
 
@@ -243,7 +237,6 @@ def get_numeric_input(message, min=0, max=0):
 def get_yes_no_input(message):
     """
     Prompts with 'message' and returns boolean of y/n response
-
     Retries if invalid input
 
     Args:
@@ -266,7 +259,6 @@ def main():
     Game loop
 
     (1) gets input on starting stack and initialises new blackjack game
-
     (2) takes multiple betting rounds, prompting if player wishes to continue, and propting for redeposit if balance 0 
     """
     print("\nWelcome to Blackjack, enjoy responsibly")
@@ -278,14 +270,12 @@ def main():
         )
         game.take_bet(bet)
         game.play_hand()
-
         print(f"Chip balance {game.chip_balance}")
         if game.chip_balance == 0:
             if get_yes_no_input("Would you like to deposit more? \n"):
                 game.chip_balance += get_numeric_input(
                     "How much would you like to deposit? \n"
                 )
-
         play_again = get_yes_no_input("Would you like to play again? \n")
         if not play_again:
             break
