@@ -215,7 +215,8 @@ class Game:
 
 def get_numeric_input(message, min=0, max=0):
     """
-    Prompts with 'message' and returns numeric input provided (if invalid repeats)
+    Prompts with 'message' and returns numeric input provided
+    Retries if invalid input
 
     Args:
         message (string): prompt message
@@ -227,11 +228,11 @@ def get_numeric_input(message, min=0, max=0):
     """
     while True:
         try:
-            chip_total_input = int(input(message))
-            assert chip_total_input > 0
-            return chip_total_input
+            numeric_input = int(input(message))
+            assert numeric_input > min and numeric_input < max
+            return numeric_input
         except:
-            print("please enter a number, greater than 0")
+            print(f"please enter a number, between {min}-{max}")
 
 
 def get_yes_no_input(message):
